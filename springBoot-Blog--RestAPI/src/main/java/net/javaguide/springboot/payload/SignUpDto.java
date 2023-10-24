@@ -18,7 +18,7 @@ public class SignUpDto {
     private String username;
 	 
 	 @Schema( //We are providing User Dto model information
-				description = "signUp With email"
+				description = "signUp With email "
 				)
     private String email;
 	 
