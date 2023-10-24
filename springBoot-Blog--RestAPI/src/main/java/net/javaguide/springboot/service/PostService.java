@@ -19,5 +19,13 @@ void deletePost(long id);
 PostResponse getAllPosts(int pageNo, int pageSize, String sortBy,String sortDir);
 	
 List<PostDto> getPostByCategoryId(Long categoryId);
+
+
+
+//List<PostDto> filterPosts(String title, String description);
+
+List<PostDto> SearchWithTitle(String partialKeyword);
+
+List<PostDto> getFilteredPosts(String title, String content);
 }
  

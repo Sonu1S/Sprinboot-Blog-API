@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import net.javaguide.springboot.Security.JwtTokenProvider;
 import net.javaguide.springboot.entity.Role;
 import net.javaguide.springboot.entity.User;
 import net.javaguide.springboot.exception.BlogAPIException;
@@ -29,14 +30,17 @@ public class AuthServiceImpl implements AuthService {
 	private RoleRepository  roleRepository;
 	private PasswordEncoder passwordEncoder;
 	
+	//inject JWT token provider
+	private JwtTokenProvider jwtTokenProvider;
 	
     public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository,
-			RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+			RoleRepository roleRepository, PasswordEncoder passwordEncoder,JwtTokenProvider jwtTokenProvider) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.jwtTokenProvider = jwtTokenProvider;
 	}
 
 //    public AuthServiceImpl() {
@@ -50,12 +54,16 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public String login(LoginDto loginDto) {
-	Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
+	Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
 			(loginDto.getUsernameOrEmail(), loginDto.getPassword()));
 		
-	SecurityContextHolder.getContext().setAuthentication(authenticate);
+	SecurityContextHolder.getContext().setAuthentication(authentication);
 	
-	return "User logged-In successfully.";
+	//implement JWT token provider from here
+	String generateToken = jwtTokenProvider.generateToken(authentication);
+	
+	return generateToken;
+	//return "User logged-In successfully.";
 	}
 
 	@Override

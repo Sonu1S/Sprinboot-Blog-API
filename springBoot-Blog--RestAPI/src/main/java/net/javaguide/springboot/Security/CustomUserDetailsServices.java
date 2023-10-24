@@ -29,7 +29,7 @@ public class CustomUserDetailsServices  implements UserDetailsService{
      .orElseThrow(() -> new UsernameNotFoundException
     		 ("user not found with username or Email " + usernameOrEmail));
 	
-     //convert list to set garanteed authorited
+     //convert list to set guaranteed authorized
      Set<GrantedAuthority> authorities = user
     		 .getRoles()
              .stream()

@@ -15,9 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.service.annotation.GetExchange;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.javaguide.springboot.entity.Category;
 import net.javaguide.springboot.payload.CategoryDto;
 import net.javaguide.springboot.service.CategoryService;
+
+@Tag(
+		name = "Category Management",
+		description = "Category Management - Facilitates CRUD operations for managing blog post "
+				+ "categories. This includes creating new categories, updating existing ones, "
+				+ "retrieving individual or all categories, and deleting specific categories or all"
+				+ " categories in the system."
+		)
 
 @RestController
 @RequestMapping("/api/categories")
@@ -30,6 +41,18 @@ public class CategoryController {
 		this.categoryService = categoryService;
 	}
 	
+	@Operation( //its for custamize documentaion
+			summary = "Manage Blog Post Categories",
+			description = "The Category API allows administrators to manage and organize blog posts "
+					+ "into different categories. Users can retrieve a list of available categories"
+					+ " and associate posts with specific categories, enhancing content organization"
+					+ " and user navigation."
+			)
+			@ApiResponse(
+			responseCode = "201",
+			description = "HTTP Status 201 CREATED - Category successfully created or updated."
+			)
+	
 	//build Add Category REST API
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
@@ -39,6 +62,15 @@ public class CategoryController {
 		
 	}
 	
+	@Operation( //its for custamize documentaion
+			  summary = "Get Category By Id Rest API",
+			  description = "Get category By Id Rest API is Used to get a single Post from the database"
+		)
+	@ApiResponse(
+			responseCode = "200",
+			description = "HTTP Status 200 SUCCESS"
+		)
+	
 	//Build Get Category REST API
 	@GetMapping("{id}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable("id") Long categoryId){
@@ -47,6 +79,15 @@ public class CategoryController {
 		//return new ResponseEntity<>(categoryDto, HttpStatus.OK);
 		
 	}
+	
+	@Operation( //its for custamize documentaion
+			  summary = "GetAll Category Rest API",
+			  description = "GetAll Category Rest API is Used to get a All Post Record from the database"
+		)
+	@ApiResponse(
+			responseCode = "200",
+			description = "HTTP Status 200 SUCCESS"
+		)
 	
 	//Build GetAll Category REST API
 	@GetMapping
@@ -66,6 +107,14 @@ public class CategoryController {
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}
 
+	@Operation( //its for custamize documentaion
+			  summary = "Update Category By Id Rest API",
+			  description = "Update Category By Id Rest API is Used to update particular Post from the database"
+		)
+	@ApiResponse(
+			responseCode = "200",
+			description = "HTTP Status 200 SUCCESS"
+		)
 	
 	  //Build Update Category REST API
 	@PreAuthorize("hasRole('ADMIN')")
@@ -77,6 +126,14 @@ public class CategoryController {
     	 
      }
 	
+	@Operation( //its for custamize documentaion
+			  summary = "Delete Category By Id Rest API",
+			  description = "Delete Category By Id Rest API is Used to Delete Post By Id from the database"
+		)
+	@ApiResponse(
+			responseCode = "200",
+			description = "HTTP Status 200 SUCCESS"
+		)
 	//Build Delete Category REST API
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("{id}")

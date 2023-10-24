@@ -1,9 +1,22 @@
 package net.javaguide.springboot.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema( //We are providing User Dto model information
+		description = "CategoryDto Model Information"
+		)
 public class CategoryDto {
 
    private long id;
+   
+   @Schema( //We are providing User Dto model information
+			description = "Blog category Name"
+			)
    private String name;
+   
+   @Schema( //We are providing User Dto model information
+			description = "Blog Category description"
+			)
    private String description;
 	   
 	   

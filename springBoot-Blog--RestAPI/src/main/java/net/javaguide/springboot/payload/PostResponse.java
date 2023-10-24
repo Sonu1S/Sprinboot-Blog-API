@@ -2,13 +2,41 @@ package net.javaguide.springboot.payload;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema( //We are providing User Dto model information
+		description = "Response Model Information"
+		)
 public class PostResponse {
 
+	@Schema( //We are providing User Dto model information
+			description = "Response With content"
+			)
 	private List<PostDto> content;
+	
+	@Schema( //We are providing User Dto model information
+			description = "Response With page Number"
+			)
 	private int pageNo;
+	
+	@Schema( //We are providing User Dto model information
+			description = "Response With Page Size"
+			)
 	private int pageSize;
+	
+	@Schema( //We are providing User Dto model information
+			description = "Response With Total Emement"
+			)
 	private long totalElement;
+	
+	@Schema( //We are providing User Dto model information
+			description = "Response With Total Pages"
+			)
 	private int totalPages;
+	
+	@Schema( //We are providing User Dto model information
+			description = "Response With last"
+			)
 	private boolean last;
 	
 	

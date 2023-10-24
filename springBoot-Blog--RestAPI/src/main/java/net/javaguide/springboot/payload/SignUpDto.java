@@ -1,10 +1,30 @@
 package net.javaguide.springboot.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema( //We are providing User Dto model information
+		description = "SignUpDto Model Information"
+		)
 public class SignUpDto {
+	
+	 @Schema( //We are providing User Dto model information
+				description = "signUp With name"
+				)
     private String name;
+	 
+	 @Schema( //We are providing User Dto model information
+				description = "signUp With username"
+				)
     private String username;
+	 
+	 @Schema( //We are providing User Dto model information
+				description = "signUp With email"
+				)
     private String email;
+	 
+	 @Schema( //We are providing User Dto model information
+				description = "signUp With password"
+				)
     private String password;
 	
     

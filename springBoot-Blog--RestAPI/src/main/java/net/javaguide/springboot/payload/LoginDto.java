@@ -3,9 +3,21 @@ package net.javaguide.springboot.payload;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema( //We are providing User Dto model information
+		description = "LogInDto Model Information"
+		)
 public class LoginDto {
    
+	 @Schema( //We are providing User Dto model information
+				description = "LogIn With email"
+				)
 	private String usernameOrEmail;
+	 
+	 @Schema( //We are providing User Dto model information
+				description = "LogIn With password"
+				)
 	private String password;
 	
 	

@@ -1,6 +1,8 @@
 package net.javaguide.springboot.serviceImpl;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import jakarta.transaction.Transactional;
 import net.javaguide.springboot.entity.Category;
 import net.javaguide.springboot.entity.Post;
 import net.javaguide.springboot.exception.ResourceNotFoundException;
@@ -58,6 +61,7 @@ public class PostServicesImpl implements PostService {
         PostDto dto =  mapToDto(postEntity);
         return dto;
 	}
+	
 	@Override //pagignation
 	public PostResponse getAllPosts(int pageNo, int pageSize, String sortBy,String sortDir) {
 	Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending(): 
@@ -152,4 +156,35 @@ public class PostServicesImpl implements PostService {
 		//convert posts to postDto    
 		return posts.stream().map((post)-> mapToDto(post)).collect(Collectors.toList());
 	}
-}
+	
+	
+	@Override
+    public List<PostDto>  SearchWithTitle(String partialKeyword) {
+		 if (partialKeyword.length() >= 2) {
+	            List<Object[]> results = postRepo.findTop5ByTitleContainingIgnoreCase(partialKeyword);
+	            List<PostDto> suggestions = new ArrayList<>();
+
+	            for (Object[] result : results) {
+	                Long id = (Long) result[0];
+	                String title = (String) result[1];
+	                String description = (String) result[2];
+	                String content = (String) result[3];
+	                Long categoryId = (Long) result[4];
+
+	                suggestions.add(new PostDto(id, title, description, content, categoryId));
+	            }
+
+	            return suggestions;
+	        }
+	        return Collections.emptyList();
+	    }
+
+	@Override
+   // @Transactional(value = true)
+		    public List<PostDto> getFilteredPosts(String title, String content) {
+		        List<PostDto> filteredPosts = postRepo.findByTitleContainingAndContentContaining
+		        		(title, content);
+		        return filteredPosts;
+	}
+	
+} 

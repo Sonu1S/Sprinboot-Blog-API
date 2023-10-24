@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import net.javaguide.springboot.entity.Post;
+import net.javaguide.springboot.payload.PostDto;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
@@ -16,4 +17,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 //    List<Post> findByCategoryId(@Param("categoryId") Long categoryId);
 
     	List<Post> findByCategoryId(Long categoryId);
+    
+	@Query("SELECT p.id, p.title, p.description, p.content, p.category.id FROM Post p WHERE LOWER"
+			+ "(p.title) LIKE LOWER(CONCAT('%', :partialKeyword, '%'))")
+	List<Object[]> findTop5ByTitleContainingIgnoreCase(@Param("partialKeyword") String partialKeyword);
+
+
+    List<PostDto> findByTitleContainingAndContentContaining(String title, String content);
 }

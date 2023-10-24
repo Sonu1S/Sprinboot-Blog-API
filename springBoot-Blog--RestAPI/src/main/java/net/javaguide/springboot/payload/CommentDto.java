@@ -1,13 +1,20 @@
 package net.javaguide.springboot.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+@Schema( //We are providing User Dto model information
+		description = "CommentDto Model Information"
+		)
 public class CommentDto {
 
 	private long id;
 	
+	 @Schema( //We are providing User Dto model information
+				description = "Blog Comment Name"
+				)
 	//name should not be null or empty
 	@NotEmpty(message= "Name should not be null or Empty")
 	
@@ -15,10 +22,16 @@ public class CommentDto {
 	//email shuld not be null or empty
 	//email feild validation
 	
+	 @Schema( //We are providing User Dto model information
+				description = "Blog Comment email"
+				)
 	@NotEmpty(message ="email shuld not be null or empty")
 	@Email
 	private String email;
 	
+	 @Schema( //We are providing User Dto model information
+				description = "Blog Comment Body"
+				)
 	//comment bpdy shuld not be null or empty
 	//comment body must be minimum 10 character
 	@NotEmpty

@@ -2,22 +2,18 @@ package net.javaguide.springboot.exception;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import net.javaguide.springboot.payload.ErrorDetails;
 
@@ -101,4 +97,16 @@ public class GlobalExceptionHandler {
 	return new ResponseEntity<>(errorDetails,HttpStatus.UNAUTHORIZED);
 		
 	}
+	
+	 @ExceptionHandler(DataIntegrityViolationException.class)
+	    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+	        String errorMessage = ex.getMessage();
+	        if (errorMessage.contains("Duplicate entry")) {
+	            
+	            String finalErrorMessage = "A blog post with the title already exists.";
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(finalErrorMessage);
+	        }
+	        
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred.");
+	    }
 }
