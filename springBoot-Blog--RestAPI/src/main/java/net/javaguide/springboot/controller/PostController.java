@@ -1,6 +1,6 @@
 package net.javaguide.springboot.controller;
 
-
+//http://localhost:9090/swagger-ui/index.html#/user-controller/createUser //this is the url
 
 import java.util.List;
 
